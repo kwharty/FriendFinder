@@ -38,10 +38,10 @@ $(document).ready(() => {
       var img = $('<img>')// not sure why this isn't working well. use vanilla js 
       // var img = document.createElement("img")
       alert({
-        title: "Your Match!",
-        text: data.matchName,
-        content: img
-    });
+                title: "Your Match!",
+                text: data.matchName,
+                content: img
+            });
     })
   })
 })
