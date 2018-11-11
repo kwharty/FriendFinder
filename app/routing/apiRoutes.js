@@ -1,40 +1,30 @@
-var friendsData = require("../data/friends")
+var {friends} = require("../data/friends")
+const router = require("express").Router();
+//use module.exports so can grab again
 
-module.exports = function (app) {
+const getMatch = (user) => {
+  return friends.map((friend) => {
+    const getDiff = (friend, user) => {
+      return friend.scores.reduce((acc, cv, i) => Math.abs(cv - user.scores[i]) + acc, 0)
+    }
+    return ({ ...friend, diff: getDiff(friend, user) })
+  }) .sort((a,b)=>a.diff>b.diff)[0]
 
-    app.get("/api/friends", function (req, res) {
-        res.json(friendsData)
-        console.log(friendsData)
-    })
-
-    app.post("/api/friends", function (req, res) {
-        var userInput = req.body;
-        var userScores = userInput.userScores;
-        var diff = 100;
-        var matchName = '';
-        var matchPhoto = '';
-
-
-        for (var i = 0; i < friendsData.length; i++) {
-            var scoreDiff = 0
-            for (var j = 0; j < userScores.length; j++) {
-                scoreDiff += Math.abs(friendsData[i].scores[j] - userScores[j]);
-            }
-
-            if (scoreDiff < diff) {
-                diff = scoreDiff;
-                matchName = friendsData[i].name;
-                matchPhoto = friendsData[i].photo
-            }
-        }
-        friendsData.push(userInput);
-
-        console.log(friendsData)
-        console.log({
-            matchName: matchName, matchPhoto
-                : matchPhoto
-        })
-        res.json({ matchName: matchName, matchPhoto: matchPhoto })
-    })
 
 }
+router
+  .get("/friends", function (req, res) {
+    res.json(friends)
+    console.log(friends)
+  })
+  .post("/friends", function (req, res) {
+    // console.log(friends);
+    console.log("yellow")
+    var userInput = req.body
+    const matchedUser = getMatch(userInput);
+    friends.push(userInput);
+    res.json(matchedUser)
+
+  })
+  
+module.exports = router;
