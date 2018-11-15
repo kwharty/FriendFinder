@@ -35,13 +35,13 @@ $(document).ready(() => {
       console.log(data);
      // console.log(status);
      // console.log(friendsData);
-      var img = $('<img>')// not sure why this isn't working well. use vanilla js 
+     // var img = $('<img>')// not sure why this isn't working well. use vanilla js 
       // var img = document.createElement("img")
-      alert({
-                title: "Your Match!",
-                text: data.matchName,
-                content: img
-            });
+      //alert({
+             //   title: "Your Match!",
+              //  text: data.matchName,
+                
+           // });
     })
   })
 })
